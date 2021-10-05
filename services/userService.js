@@ -43,11 +43,12 @@ const loginUser = async (email, password) => {
 
   if (!userSearch || userSearch.password !== password) return null;
 
-  const { _id: id, username, role } = userSearch;
+  const { _id: id, username, registered, role } = userSearch;
   const userWithoutPassword = {
     id,
     username,
     email,
+    registered,
     role,
   };
 

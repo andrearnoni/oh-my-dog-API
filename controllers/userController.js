@@ -39,12 +39,13 @@ const getUser = async (req, res) => {
   try {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, secret);
-  const { id, username, email, role } = decoded.data;
+  const { id, username, email, registered, role } = decoded.data;
 
   return res.status(200).json({
     id,
     username,
     email,
+    registered,
     role, 
   }); 
   } catch (error) {
