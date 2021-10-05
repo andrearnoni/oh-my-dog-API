@@ -5,12 +5,12 @@ const path = require('path');
 const app = express();
 const { upload } = require('../../middlewares/multer');
 
+const userController = require('../../controllers/userController');
+
 app.use(cors());
 app.use(express.json());
 app.use('/images', express.static(path.resolve('src/uploads')));
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: "Olá mundo" })
-})
+app.post('/users', userController.createUser);
 
 module.exports = app;
