@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 const UsersModel = require('../models/userModel');
 
 const secret = process.env.SECRET;
+const expire = process.env.EXPIRE;
+const alg = process.env.ALG;
 
 const jwtConfig = {
-  expiresIn: '1d',
-  algorithm: 'HS256',
+  expiresIn: expire,
+  algorithm: alg,
 };
 
 const validateFieldsCreate = (email, username, password) => {
@@ -41,9 +43,10 @@ const loginUser = async (email, password) => {
 
   if (!userSearch || userSearch.password !== password) return null;
 
-  const { _id: id, role } = userSearch;
+  const { _id: id, username, role } = userSearch;
   const userWithoutPassword = {
     id,
+    username,
     email,
     role,
   };

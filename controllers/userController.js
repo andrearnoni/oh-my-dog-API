@@ -1,5 +1,9 @@
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const service = require('../services/userService');
 const messages = require('../helpers/validationMessages');
+
+const secret = process.env.SECRET;
 
 const createUser = async (req, res) => {
   try {
@@ -31,7 +35,25 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, secret);
+  const { id, username, email, role } = decoded.data;
+
+  return res.status(200).json({
+    id,
+    username,
+    email,
+    role, 
+  }); 
+  } catch (error) {
+    return res.status(500).json(messages.ERROR);
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
+  getUser,
 }

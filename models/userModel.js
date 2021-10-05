@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const getDate = require('../middlewares/registeredDate');
 
 const emailExists = async (email) => {
   const db = await connection();
@@ -16,14 +17,16 @@ const usernameExists = async (username) => {
 
 const createUser = async ({ email, username, password, role }) => {
   const db = await connection();
+  const registered = getDate();
   const userRegistry = await db.collection('users')
-    .insertOne({ email, username, password, role });
+    .insertOne({ email, username, password, role, registered });
 
   return {
     user: {
       email,
       username,
       role,
+      registered,
       _id: userRegistry.insertedId,
     },
   };
