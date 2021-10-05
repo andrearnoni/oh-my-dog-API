@@ -4,11 +4,20 @@ const UsersModel = require('../models/userModel');
 
 const secret = process.env.SECRET;
 
-const jwtConfig = process.env.JWT_CONFIG;
+const jwtConfig = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const validateFieldsCreate = (email, username, password) => {
   if (!email || !username || !password) return false;
   if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(email)) return false;
+
+  return true;
+};
+
+const validateFieldsLogin = (email, password) => {
+  if (!email || !password) return false;
 
   return true;
 };
@@ -24,7 +33,27 @@ const createUser = async ({ email, username, password, role }) => {
   return UsersModel.createUser({ email, username, password, role });
 };
 
+const loginUser = async (email, password) => {
+  const validation = validateFieldsLogin(email, password);
+  const userSearch = await UsersModel.loginUser(email);
+
+  if (!validation) return false;
+
+  if (!userSearch || userSearch.password !== password) return null;
+
+  const { _id: id, role } = userSearch;
+  const userWithoutPassword = {
+    id,
+    email,
+    role,
+  };
+
+  const token = jwt.sign({ data: userWithoutPassword }, secret, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
-  validateFieldsCreate,
   createUser,
+  loginUser,
 }
