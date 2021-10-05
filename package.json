@@ -4,7 +4,8 @@
   "description": "An API for dogs social network",
   "main": "./src/api/server.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "node ./src/api/server.js",
+    "dev": "nodemon ."
   },
   "author": "André Arnoni",
   "license": "ISC",
