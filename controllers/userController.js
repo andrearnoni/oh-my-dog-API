@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
     if (result === null) return res.status(401).json(messages.INCORRECT_DATA);
 
     return res.status(200).json({ token });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json(messages.ERROR);
   }
 };
@@ -48,7 +48,7 @@ const getUser = async (req, res) => {
     registered,
     role, 
   }); 
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json(messages.ERROR);
   }
 };
@@ -57,4 +57,4 @@ module.exports = {
   createUser,
   loginUser,
   getUser,
-}
+};

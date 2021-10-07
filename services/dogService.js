@@ -6,6 +6,20 @@ const validateFields = (name, weight, age) => {
   return true;
 };
 
+const getAllDogs = async () => {
+  const dogs = await DogsModel.getAllDogs();
+
+  return dogs;
+};
+
+const getDogById = async (id) => {
+  const dog = await DogsModel.getDogById(id);
+
+  if (!dog) return null;
+
+  return dog;
+};
+
 const createDogProfile = async ({ name, weight, age, userId }) => {
   const validation = validateFields(name, weight, age);
 
@@ -14,6 +28,17 @@ const createDogProfile = async ({ name, weight, age, userId }) => {
   return DogsModel.createDogProfile({ name, weight, age, userId });
 };
 
+const updateDogProfile = async ({ id, name, weight, age }) => {
+  const validation = validateFields(name, weight, age);
+
+  if (!validation) return false;
+
+  return DogsModel.updateDogProfile({ id, name, weight, age });
+};
+
 module.exports = {
+  getAllDogs,
+  getDogById,
   createDogProfile,
+  updateDogProfile,
 };
