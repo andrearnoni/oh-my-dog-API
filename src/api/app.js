@@ -14,11 +14,15 @@ app.use(express.json());
 app.use('/images', express.static(path.resolve('src/uploads')));
 
 app.get('/user', validateJWT, userController.getUser);
-app.get('/dogs', dogController.getAllDogs);
 app.get('/dogs/:id', dogController.getDogById);
+app.get('/dogs', dogController.getAllDogs);
 app.post('/users', userController.createUser);
 app.post('/login', userController.loginUser);
-app.put('/dogs/:id', validateJWT, dogController.updateDogProfile);
 app.post('/dogs', validateJWT, dogController.createDogProfile);
+app.put('/dog/:id/image/all', validateJWT, upload.array('images'),
+  dogController.insertDogImage);
+app.put('/dog/:id/image', validateJWT, upload.single('image'),
+  dogController.updateDogImage);
+app.put('/dog/:id', validateJWT, dogController.updateDogProfile);
 
 module.exports = app;

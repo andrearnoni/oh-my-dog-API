@@ -37,9 +37,33 @@ const updateDogProfile = async ({ id, name, weight, age }) => {
   return result;
 };
 
+const updateDogImage = async ({ id, image }) => {
+  const db = await connection();
+
+  if (!ObjectId.isValid(id)) return null;
+
+  const result = await db.collection('dogs')
+    .updateOne({ _id: ObjectId(id) }, { $set: { image } });
+
+  return result;
+};
+
+const insertDogImage = async ({ id, image }) => {
+  const db = await connection();
+
+  if (!ObjectId.isValid(id)) return null;
+
+  const result = await db.collection('dogs')
+    .updateOne({ _id: ObjectId(id) }, { image });
+
+  return result;
+};
+
 module.exports = {
   getAllDogs,
   getDogById,
   createDogProfile,
   updateDogProfile,
+  updateDogImage,
+  insertDogImage,
 };

@@ -36,9 +36,17 @@ const updateDogProfile = async ({ id, name, weight, age }) => {
   return DogsModel.updateDogProfile({ id, name, weight, age });
 };
 
+const updateDogImage = async ({ id, image }) => DogsModel
+  .updateDogImage({ id, image });
+
+const insertDogImage = async ({ id, image }) => DogsModel
+  .insertDogImage({ id, image });  
+
 module.exports = {
   getAllDogs,
   getDogById,
   createDogProfile,
   updateDogProfile,
+  updateDogImage,
+  insertDogImage,
 };

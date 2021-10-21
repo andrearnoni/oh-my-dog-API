@@ -71,9 +71,49 @@ const updateDogProfile = async (req, res) => {
   }
 };
 
+const updateDogImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id } = req.user;
+    const getUserId = _id.toString();
+    const dog = await service.getDogById(id);
+
+    if (dog.userId !== getUserId) {
+      res.status(403).json(messages.ACCESS_DENIED);
+    } else {
+      await service.updateDogImage({ id, image: `localhost:3000/src/uploads/${id}.jpeg` });
+    }
+    
+    return res.status(200).json(dog);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const insertDogImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id } = req.user;
+    const getUserId = _id.toString();
+    const dog = await service.getDogById(id);
+
+    if (dog.userId !== getUserId) {
+      res.status(403).json(messages.ACCESS_DENIED);
+    } else {
+      await service.insertDogImage({ id, image: `localhost:3000/src/uploads/${id}.jpeg` });
+    }
+    
+    return res.status(200).json(dog);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAllDogs,
   getDogById,
   createDogProfile,
   updateDogProfile,
+  updateDogImage,
+  insertDogImage,
 };
